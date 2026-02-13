@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LLM Finder</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1>LLM Finder</h1>
+        <p>
+          Explore open-source and closed-source models, compare benchmark performance,
+          and get suggestions for the right model for your development use case.
+        </p>
+      </header>
+
+      <section class="controls card">
+        <h2>Find the right model</h2>
+        <div class="grid">
+          <label>
+            Primary use case
+            <select id="useCase"></select>
+          </label>
+          <label>
+            Deployment preference
+            <select id="deployment">
+              <option value="any">Any</option>
+              <option value="open">Open source</option>
+              <option value="closed">Closed source</option>
+            </select>
+          </label>
+          <label>
+            Context window minimum
+            <select id="contextRequirement">
+              <option value="0">Any</option>
+              <option value="32">32K tokens</option>
+              <option value="128">128K tokens</option>
+              <option value="1000">1M+ tokens</option>
+            </select>
+          </label>
+          <label>
+            Max monthly budget (USD)
+            <input id="budget" type="number" min="0" value="100" step="10" />
+          </label>
+        </div>
+        <button id="recommendBtn">Recommend models</button>
+      </section>
+
+      <section class="card" id="recommendations">
+        <h2>Top recommendations</h2>
+        <p class="muted">Pick your options and click “Recommend models”.</p>
+      </section>
+
+      <section class="card">
+        <h2>Model index</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Type</th>
+                <th>Provider</th>
+                <th>Context</th>
+                <th>MMLU</th>
+                <th>GSM8K</th>
+                <th>HumanEval</th>
+                <th>Price / 1M tokens</th>
+              </tr>
+            </thead>
+            <tbody id="modelTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
