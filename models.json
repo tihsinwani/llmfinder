@@ -1,0 +1,113 @@
+{
+  "updatedAt": "2026-02-13T00:00:00Z",
+  "models": [
+    {
+      "name": "GPT-4o",
+      "type": "closed",
+      "provider": "OpenAI",
+      "contextK": 128,
+      "mmlu": 88.7,
+      "gsm8k": 94.8,
+      "humaneval": 90.2,
+      "inputPerMillion": 5,
+      "outputPerMillion": 15,
+      "strengths": ["coding", "analysis", "chatbot", "long_context"]
+    },
+    {
+      "name": "GPT-4.1",
+      "type": "closed",
+      "provider": "OpenAI",
+      "contextK": 1000,
+      "mmlu": 90.1,
+      "gsm8k": 95.4,
+      "humaneval": 91.3,
+      "inputPerMillion": 10,
+      "outputPerMillion": 30,
+      "strengths": ["coding", "analysis", "long_context"]
+    },
+    {
+      "name": "Claude 3.5 Sonnet",
+      "type": "closed",
+      "provider": "Anthropic",
+      "contextK": 200,
+      "mmlu": 88,
+      "gsm8k": 92.3,
+      "humaneval": 88.5,
+      "inputPerMillion": 3,
+      "outputPerMillion": 15,
+      "strengths": ["analysis", "chatbot", "long_context"]
+    },
+    {
+      "name": "Gemini 1.5 Pro",
+      "type": "closed",
+      "provider": "Google",
+      "contextK": 1000,
+      "mmlu": 85.9,
+      "gsm8k": 90,
+      "humaneval": 84.3,
+      "inputPerMillion": 3.5,
+      "outputPerMillion": 10.5,
+      "strengths": ["long_context", "analysis", "chatbot"]
+    },
+    {
+      "name": "Llama 3.1 405B",
+      "type": "open",
+      "provider": "Meta",
+      "contextK": 128,
+      "mmlu": 86.4,
+      "gsm8k": 91,
+      "humaneval": 87.2,
+      "inputPerMillion": 0,
+      "outputPerMillion": 0,
+      "strengths": ["open_stack", "analysis", "coding"]
+    },
+    {
+      "name": "Llama 3.1 70B",
+      "type": "open",
+      "provider": "Meta",
+      "contextK": 128,
+      "mmlu": 82,
+      "gsm8k": 86,
+      "humaneval": 81,
+      "inputPerMillion": 0,
+      "outputPerMillion": 0,
+      "strengths": ["open_stack", "budget", "general"]
+    },
+    {
+      "name": "Qwen2.5 72B",
+      "type": "open",
+      "provider": "Alibaba",
+      "contextK": 128,
+      "mmlu": 85,
+      "gsm8k": 90,
+      "humaneval": 84,
+      "inputPerMillion": 0,
+      "outputPerMillion": 0,
+      "strengths": ["coding", "open_stack", "analysis"]
+    },
+    {
+      "name": "Mistral Large 2",
+      "type": "closed",
+      "provider": "Mistral",
+      "contextK": 128,
+      "mmlu": 84,
+      "gsm8k": 88.5,
+      "humaneval": 84,
+      "inputPerMillion": 2,
+      "outputPerMillion": 6,
+      "strengths": ["coding", "budget", "general"]
+    },
+    {
+      "name": "Mixtral 8x22B Instruct",
+      "type": "open",
+      "provider": "Mistral",
+      "contextK": 64,
+      "mmlu": 81,
+      "gsm8k": 85,
+      "humaneval": 79,
+      "inputPerMillion": 0,
+      "outputPerMillion": 0,
+      "strengths": ["budget", "open_stack", "general"]
+    }
+  ]
+}

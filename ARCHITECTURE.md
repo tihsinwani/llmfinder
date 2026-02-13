@@ -8,46 +8,53 @@ LLM Finder is a **client-only static application**.
 - Hosting target: GitHub Pages (or any static host)
 - Backend/database: none
 
-This design keeps deployment simple, minimizes operational cost, and makes the app portable.
+The app uses a guided Q&A interface and a refreshable JSON model feed for near-real-time catalog updates after repository changes are deployed.
 
 ## 2) Architecture style
 
-The app follows a small, modular-in-file architecture:
+The app follows modular-in-file organization:
 
-- **Data layer (in-memory)**: model catalog + use-case profiles in `script.js`.
-- **Domain logic layer**: filtering and scoring functions.
-- **Presentation layer**: DOM rendering to table and recommendation cards.
-- **Interaction layer**: form inputs and button event handlers.
+- **Data layer**: `models.json` feed + fallback in-memory dataset in `script.js`.
+- **Domain logic layer**: scoring and ranking functions.
+- **Presentation layer**: Q&A UI, recommendation cards, model table rendering.
+- **Interaction layer**: quiz navigation and model feed refresh events.
 
 ## 3) Primary modules
 
 ### `index.html`
 
 Defines:
-- filter controls,
-- recommendations panel,
-- model index table,
-- script/style entry points.
+- hero and model feed status badges,
+- multiple-choice questionnaire section,
+- recommendations section,
+- model index table.
 
 ### `styles.css`
 
 Defines:
-- visual theme tokens,
-- responsive grid layout for controls,
-- card/table styling.
+- modern dark visual design with gradient background,
+- interactive option cards and action controls,
+- responsive behavior for questionnaire and table layout.
 
 ### `script.js`
 
 Contains:
-- model dataset (`models`),
-- use-case configs (`useCases`),
+- fallback model dataset,
+- quiz question configuration,
 - scoring helpers (`avgPrice`, `normalizedCost`, `modelScore`),
-- rendering functions (`renderTable`, recommendation rendering),
-- user action wiring (recommend button click).
+- quiz renderer and navigation,
+- recommendation generation,
+- model feed refresh logic (auto + manual).
+
+### `models.json`
+
+Provides:
+- canonical model catalog loaded at runtime,
+- lightweight feed format that can be updated independently of app logic.
 
 ## 4) Data model
 
-Each model entry uses a flat object shape:
+Each model entry uses flat fields:
 
 - `name`
 - `type` (`open` or `closed`)
@@ -60,82 +67,40 @@ Each model entry uses a flat object shape:
 - `outputPerMillion`
 - `strengths[]`
 
-Use-case profiles specify:
-
-- `label`
-- `weights` (MMLU/GSM8K/HumanEval/Cost)
-- `key` (semantic strength tag)
-
 ## 5) Recommendation pipeline
 
-1. Read user constraints from the UI.
-2. Filter models by deployment and minimum context window.
-3. Compute composite score for each remaining model.
-4. Sort descending by score.
-5. Return/display top N (currently 5).
+1. User answers a 6-step multiple-choice Q&A.
+2. Answers are converted into recommendation constraints/preferences.
+3. Candidate models are filtered by deployment, privacy, and context requirements.
+4. Candidates are scored via benchmark + cost + fit + latency preferences.
+5. Top 5 models are rendered with rationale.
 
-### Scoring composition
+## 6) Live feed update flow
 
-- Benchmark subtotal from weighted MMLU, GSM8K, HumanEval.
-- Cost score from budget-normalized cost estimate.
-- Bonus if model strengths align with selected use case.
-- Minor bonus for open-stack friendliness tags.
-
-## 6) Rendering/data flow
-
-- On load:
-  - use-case options are generated dynamically,
-  - model table is rendered from dataset.
-- On recommend action:
-  - filtered + ranked list is computed,
-  - recommendations panel is re-rendered.
-
-All state is ephemeral and held in memory.
+1. App starts and requests `models.json` with cache-busting.
+2. If fetch succeeds, table and ranking source update to feed data.
+3. If fetch fails, app falls back to embedded catalog.
+4. Auto-refresh runs every 15 minutes.
+5. User can trigger immediate refresh from the UI.
 
 ## 7) Non-functional characteristics
 
 ### Performance
-
-- Small dataset and O(n log n) ranking per interaction.
-- Negligible CPU/memory footprint for current scale.
+- Small dataset and O(n log n) ranking over current catalog size.
 
 ### Reliability
-
-- No external runtime dependencies or network calls.
-- Works offline once static assets are loaded.
+- No backend dependencies.
+- Graceful fallback when feed retrieval fails.
 
 ### Security
+- No secrets or server-side runtime.
+- Static hosting minimizes attack surface.
 
-- No auth, no secrets, no backend attack surface.
-- Static hosting reduces operational risk surface.
+## 8) Extension plan
 
-## 8) Trade-offs
+To move toward continuous model freshness:
 
-### Benefits
-
-- Very easy deployment and maintenance.
-- Fast iteration for UI/heuristic changes.
-- No infrastructure required.
-
-### Limitations
-
-- Data is static and must be manually updated.
-- No user accounts, persistence, or telemetry.
-- Scoring is heuristic rather than learned/personalized.
-
-## 9) Extension plan
-
-To evolve toward production-grade model advisory:
-
-1. Move model catalog to versioned JSON with metadata sources.
-2. Add update pipeline (scheduled benchmark refresh).
-3. Introduce backend API for larger catalogs and search.
-4. Add evaluators for user-uploaded prompts/tasks.
-5. Add model policy constraints (region, compliance, licensing).
-
-## 10) GitHub distribution model
-
-For this repository, the interactive user experience should be delivered via **GitHub Pages** (static site hosting).
-
-A **GitHub App** is optional and should only be introduced when deeper GitHub integration is required (repo installation, permissions, webhook workflows). It complements Pages, but does not replace frontend hosting.
-
+1. Add scheduled workflow to update `models.json` from trusted sources.
+2. Attach source links + timestamp metadata per model.
+3. Add user-facing filter controls for region/compliance/licensing.
+4. Persist user sessions/preferences locally.
