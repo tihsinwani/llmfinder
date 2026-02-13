@@ -60,6 +60,17 @@ Once Pages is enabled, users can visit a URL like:
 
 and interact with the app in-browser.
 
+## GitHub Pages vs GitHub App (interactive access)
+
+If you want users to just open a URL and interact with the recommender, use **GitHub Pages**.
+
+- **GitHub Pages**: Hosts this static frontend and gives a public URL (`https://<user>.github.io/<repo>/`). Best for product/demo access.
+- **GitHub App**: Integrates with GitHub APIs/events and permissions, but does **not** host a public interactive web app by itself.
+
+A common pattern is:
+1. Host UI on GitHub Pages.
+2. Add a GitHub App later only if you need repository installation flows, webhook automations, or API access on behalf of users.
+
 ## Deploy to GitHub Pages
 
 This repository includes a GitHub Actions workflow that publishes the app automatically.
