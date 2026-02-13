@@ -133,3 +133,9 @@ To evolve toward production-grade model advisory:
 4. Add evaluators for user-uploaded prompts/tasks.
 5. Add model policy constraints (region, compliance, licensing).
 
+## 10) GitHub distribution model
+
+For this repository, the interactive user experience should be delivered via **GitHub Pages** (static site hosting).
+
+A **GitHub App** is optional and should only be introduced when deeper GitHub integration is required (repo installation, permissions, webhook workflows). It complements Pages, but does not replace frontend hosting.
+

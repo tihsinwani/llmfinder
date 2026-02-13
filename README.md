@@ -31,6 +31,7 @@ The app is intentionally built as plain HTML/CSS/JavaScript so it can run on **G
 - `styles.css` — styling and responsive layout.
 - `script.js` — model data, scoring logic, filter logic, and DOM rendering.
 - `ARCHITECTURE.md` — detailed architecture and data flow.
+- `.github/workflows/deploy-pages.yml` — automatic GitHub Pages deployment.
 
 ## Quick start
 
@@ -48,14 +49,37 @@ Then open: `http://localhost:4173`
 node --check script.js
 ```
 
+## Interactive GitHub option (no separate hosting)
+
+Yes — people can use an interactive page directly from GitHub via **GitHub Pages**.
+You do **not** need to host this app on a separate server.
+
+Once Pages is enabled, users can visit a URL like:
+
+`https://<org-or-user>.github.io/<repo>/`
+
+and interact with the app in-browser.
+
+## GitHub Pages vs GitHub App (interactive access)
+
+If you want users to just open a URL and interact with the recommender, use **GitHub Pages**.
+
+- **GitHub Pages**: Hosts this static frontend and gives a public URL (`https://<user>.github.io/<repo>/`). Best for product/demo access.
+- **GitHub App**: Integrates with GitHub APIs/events and permissions, but does **not** host a public interactive web app by itself.
+
+A common pattern is:
+1. Host UI on GitHub Pages.
+2. Add a GitHub App later only if you need repository installation flows, webhook automations, or API access on behalf of users.
+
 ## Deploy to GitHub Pages
 
-Because this is a static app, deployment is straightforward:
+This repository includes a GitHub Actions workflow that publishes the app automatically.
 
 1. Push this repository to GitHub.
-2. In GitHub repository settings, enable **Pages**.
-3. Set source to the default branch root (or `/docs` if you choose to relocate files).
-4. Save and use the generated GitHub Pages URL.
+2. In repo settings, go to **Pages**.
+3. Set **Build and deployment** source to **GitHub Actions**.
+4. Push to the default branch.
+5. The workflow will deploy the static site, and GitHub will provide the public Pages URL.
 
 ## Recommendation approach (high-level)
 
@@ -80,4 +104,3 @@ The app ranks candidates and displays the top 5.
 - Add side-by-side model comparison and sorting controls.
 - Add export/import of model catalogs (JSON).
 - Add scenario presets (agentic coding, RAG-heavy QA, multilingual support, etc.).
-
