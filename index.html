@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LLM Finder</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1>LLM Finder</h1>
+        <p>
+          Interactive model advisor for open and closed LLMs. Answer a few multiple-choice
+          questions and get ranked recommendations.
+        </p>
+        <p class="muted" id="syncStatus">Live model sync: checking...</p>
+      </header>
+
+      <section class="card">
+        <h2>Interactive Q&A</h2>
+        <p class="muted">Step through this wizard to get tailored model suggestions.</p>
+        <article id="qaCard" class="qa-card"></article>
+        <div class="qa-actions">
+          <button id="prevQuestion" type="button">Previous</button>
+          <button id="nextQuestion" type="button">Next</button>
+          <button id="finishQuestionnaire" type="button">Get recommendations</button>
+        </div>
+      </section>
+
+      <section class="controls card">
+        <h2>Manual controls (optional override)</h2>
+        <div class="grid">
+          <label>
+            Primary use case
+            <select id="useCase"></select>
+          </label>
+          <label>
+            Deployment preference
+            <select id="deployment">
+              <option value="any">Any</option>
+              <option value="open">Open source</option>
+              <option value="closed">Closed source</option>
+            </select>
+          </label>
+          <label>
+            Context window minimum
+            <select id="contextRequirement">
+              <option value="0">Any</option>
+              <option value="32">32K tokens</option>
+              <option value="128">128K tokens</option>
+              <option value="1000">1M+ tokens</option>
+            </select>
+          </label>
+          <label>
+            Max budget per 1M tokens (USD)
+            <input id="budget" type="number" min="0" value="8" step="1" />
+          </label>
+        </div>
+        <div class="inline-actions">
+          <button id="recommendBtn">Recommend models</button>
+          <button id="refreshModels" type="button">Refresh live model list</button>
+        </div>
+      </section>
+
+      <section class="card" id="recommendations">
+        <h2>Top recommendations</h2>
+        <p class="muted">Complete the Q&A or click “Recommend models”.</p>
+      </section>
+
+      <section class="card">
+        <h2>Model index</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Type</th>
+                <th>Provider</th>
+                <th>Context</th>
+                <th>MMLU</th>
+                <th>GSM8K</th>
+                <th>HumanEval</th>
+                <th>Price / 1M tokens</th>
+                <th>Source</th>
+              </tr>
+            </thead>
+            <tbody id="modelTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
