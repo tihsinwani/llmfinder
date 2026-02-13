@@ -8,53 +8,45 @@
   </head>
   <body>
     <main class="container">
-      <header>
+      <header class="hero card">
+        <p class="eyebrow">Interactive model advisor</p>
         <h1>LLM Finder</h1>
         <p>
-          Explore open-source and closed-source models, compare benchmark performance,
-          and get suggestions for the right model for your development use case.
+          Answer a quick multiple-choice Q&A and get model recommendations tailored to your workload,
+          deployment constraints, latency needs, and budget.
         </p>
+        <div class="hero-meta">
+          <span class="badge" id="feedStatus">Model feed: loading…</span>
+          <span class="badge muted" id="lastUpdated">Last sync: pending</span>
+          <button id="refreshModelsBtn" type="button" class="ghost-btn">Refresh model feed</button>
+        </div>
       </header>
 
-      <section class="controls card">
-        <h2>Find the right model</h2>
-        <div class="grid">
-          <label>
-            Primary use case
-            <select id="useCase"></select>
-          </label>
-          <label>
-            Deployment preference
-            <select id="deployment">
-              <option value="any">Any</option>
-              <option value="open">Open source</option>
-              <option value="closed">Closed source</option>
-            </select>
-          </label>
-          <label>
-            Context window minimum
-            <select id="contextRequirement">
-              <option value="0">Any</option>
-              <option value="32">32K tokens</option>
-              <option value="128">128K tokens</option>
-              <option value="1000">1M+ tokens</option>
-            </select>
-          </label>
-          <label>
-            Max monthly budget (USD)
-            <input id="budget" type="number" min="0" value="100" step="10" />
-          </label>
+      <section class="card quiz" aria-live="polite">
+        <div class="quiz-top">
+          <h2>Guided model Q&A</h2>
+          <p class="muted" id="quizProgress">Question 1 of 6</p>
         </div>
-        <button id="recommendBtn">Recommend models</button>
+
+        <div id="questionText" class="question-text"></div>
+        <div id="questionOptions" class="question-options"></div>
+
+        <div class="quiz-actions">
+          <button id="prevBtn" type="button" class="ghost-btn">Back</button>
+          <button id="nextBtn" type="button">Next</button>
+        </div>
       </section>
 
       <section class="card" id="recommendations">
-        <h2>Top recommendations</h2>
-        <p class="muted">Pick your options and click “Recommend models”.</p>
+        <h2>Your recommendations</h2>
+        <p class="muted">Complete the Q&A to generate personalized model suggestions.</p>
       </section>
 
       <section class="card">
-        <h2>Model index</h2>
+        <h2>Live model index</h2>
+        <p class="muted">
+          Catalog updates are fetched automatically every 15 minutes and can be manually refreshed.
+        </p>
         <div class="table-wrap">
           <table>
             <thead>
